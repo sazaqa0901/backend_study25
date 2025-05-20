@@ -24,13 +24,13 @@ public class Todo {
     @Column(name = "todo_is_checked", columnDefinition = "tinyint(1)")
     private boolean isChecked;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "member_id")   // Todo 테이블에 user_id FK 컬럼 생김
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
 
     @Builder
-    public Todo(String content, Member member, boolean isChecked) {
+    public Todo(String content, boolean isChecked, Member member) {
         this.content = content;
         this.member = member;
         this.isChecked = isChecked;
