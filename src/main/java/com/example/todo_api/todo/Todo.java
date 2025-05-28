@@ -22,7 +22,7 @@ public class Todo {
     private String content;
 
     @Column(name = "todo_is_checked", columnDefinition = "tinyint(1)")
-    private boolean isChecked;
+    private boolean isChecked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -30,9 +30,8 @@ public class Todo {
 
 
     @Builder
-    public Todo(String content, boolean isChecked, Member member) {
+    public Todo(String content, Member member) {
         this.content = content;
         this.member = member;
-        this.isChecked = isChecked;
     }
 }
