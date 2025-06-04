@@ -1,5 +1,7 @@
 package com.example.todo_api.todo;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,8 +14,9 @@ import java.net.URI;
 public class TodoController {
     private final TodoService todoService;
 
+    @ApiResponse(responseCode = "400", description = "존재하지 않는 멤버일 때 응답")
     @PostMapping
-    public ResponseEntity<Void> createTodo(@RequestBody TodoCreateRequest request){
+    public ResponseEntity<Void> createTodo(@RequestBody @Valid TodoCreateRequest request){
         Long todoId = todoService.createTodo(request.getContent(), request.getMemberId);
         return ResponseEntity.created(URI.create("/todo/" + todoId)).build();
     }

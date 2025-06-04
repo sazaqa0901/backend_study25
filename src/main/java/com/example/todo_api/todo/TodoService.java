@@ -1,6 +1,8 @@
 package com.example.todo_api.todo;
 
 import com.example.todo_api.Member.Member;
+import com.example.todo_api.common.BadRequestException;
+import com.example.todo_api.common.ErrorMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
@@ -32,8 +34,8 @@ public class TodoService {
     public void createTodo(String content, Long memberId) throws Exception{
          User user = userReposirtory.findById(memberId);
 
-        if(Member == null){
-            throw new Exception("존재하지 않는 유저 ID 입니다.")
+        if(member == null){
+            throw new BadRequestException("존재하지 않는 유저 ID 입니다.");
         }
         Todo todo = new Todo(content, member);
         todoRepository.save(todo);
@@ -44,7 +46,7 @@ public class TodoService {
         Member member = memberRepository.findById(userId);
 
         if (member == null){
-            throw new RuntimeException("멤버가 존재하지 않습니다.");
+            throw new RuntimeException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
 
         return todoRepository.findAllByMember(member);
@@ -55,13 +57,13 @@ public class TodoService {
         Member member = memberRepository.findById(memberId);
 
         if (member == null){
-            throw new RuntimeException("멤버가 존재하지 않습니다.");
+            throw new RuntimeException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
 
         Todo todo = todoRepository.findById(todoId);
 
         if (todo == null){
-            throw new RuntimeException("할 일이 존재하지 않습니다.")
+            throw new RuntimeException("할 일이 존재하지 않습니다.");
         }
 
         if (todo.getMember() != member){
